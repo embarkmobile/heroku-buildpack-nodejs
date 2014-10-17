@@ -131,13 +131,18 @@ fi
 
 # Run gulp heroku:$NODE_ENV task if gulp and a gulpfile is present
 (
+  if [ -d "$env_dir" ]; then
+    status "Exporting config vars to environment for gulp"
+    export_env_dir $env_dir
+  fi
+
   if [ ! -e $build_dir/node_modules/.bin/gulp ]; then
     status "Gulp was not installed."
   else
     if [ ! -e $build_dir/gulpfile.js ]; then
       status "No gulpfile found."
     else
-      $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV 2>&1 | indent
+      $build_dir/node_modules/.bin/gulp heroku 2>&1 | indent
     fi
   fi
 )

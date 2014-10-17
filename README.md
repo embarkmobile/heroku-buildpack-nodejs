@@ -9,8 +9,7 @@ A Heroku buildpack for Node.js which:
 
 Here's an overview of what this buildpack does:
  * Everything in the [offical buildpack](https://github.com/heroku/heroku-buildpack-nodejs)
- * Runs the `gulp heroku:$NODE_ENV` task during compile if `./gulpfile.js` exists (`$NODE_ENV` is typically `production`)
+ * Runs the `gulp heroku` task during compile if `gulpfile.js` exists
 
 ## Notes
  * Ensure your `devDependencies` (or `dependencies`) contain an entry for gulp.
- 
