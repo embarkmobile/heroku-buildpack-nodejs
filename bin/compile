@@ -86,7 +86,7 @@ fi
 
   status "Installing dependencies"
   # Make npm output to STDOUT instead of its default STDERR
-  npm install --userconfig $build_dir/.npmrc --production 2>&1 | indent
+  npm install --userconfig $build_dir/.npmrc 2>&1 | indent
 )
 
 # Persist goodies like node-version in the slug
@@ -128,6 +128,19 @@ if [ ! -e $build_dir/Procfile ]; then
     protip "Create a Procfile or specify a start script in package.json"
   fi
 fi
+
+# Run gulp heroku:$NODE_ENV task if gulp and a gulpfile is present
+(
+  if [ ! -e $build_dir/node_modules/.bin/gulp ]; then
+    status "Gulp was not installed."
+  else
+    if [ ! -e $build_dir/gulpfile.js ]; then
+      status "No gulpfile found."
+    else
+      $build_dir/node_modules/.bin/gulp heroku:$NODE_ENV 2>&1 | indent
+    fi
+  fi
+)
 
 # Update the PATH
 status "Building runtime environment"
